@@ -19,80 +19,21 @@ public class MainActivity extends AppCompatActivity {
     public static final String LOG_TAG = MainActivity.class.getName();
 
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-    }
 
-    @Override
-    protected void onStart(){
-        super.onStart();
-        displayDatabaseInfo();
+        /** Database helper that will provide us access to the database */
+        HabitDbHelper mDbHelper = new HabitDbHelper(this);
 
 
-    }
+        mDbHelper.insertHabit("Water", "Drinking", "2017-07-09", "09:30", 1, 0 );
+        mDbHelper.insertHabit("Yoga", "Sport", "2017-07-09", "11:30", 30, 0 );
+        mDbHelper.insertHabit("Android Studio", "Coding", "2017-07-09", "14:30", 180, 0 );
 
-    /** Database helper that will provide us access to the database */
-    private HabitDbHelper mDbHelper = new HabitDbHelper(this);
-
-    /**
-     * Temporary helper method to display information in the LogCat about the state of
-     * the habit database.
-     */
-    private void displayDatabaseInfo() {
-
-
-
-        // Gets the database in write mode
-        SQLiteDatabase db = mDbHelper.getWritableDatabase();
-
-        // Create a ContentValues object where column names are the keys,
-        // and Water attributes are the values.
-        ContentValues values = new ContentValues();
-        values.put(HabitContract.HabitEntry.COLUMN_HABIT_NAME, "Water");
-        values.put(HabitContract.HabitEntry.COLUMN_HABIT_TYPE, "Drinking");
-        values.put(HabitContract.HabitEntry.COLUMN_HABIT_DATE, "2017-07-09");
-        values.put(HabitContract.HabitEntry.COLUMN_HABIT_TIME, "09:30");
-        values.put(HabitContract.HabitEntry.COLUMN_HABIT_DURATION, 1);
-        values.put(HabitContract.HabitEntry.COLUMN_HABIT_COST, 0);
-
-
-        // Insert a new row for Water Habit in the database, returning the ID of that new row.
-        // The first argument for db.insert() is the pets table name.
-        // The second argument provides the name of a column in which the framework
-        // can insert NULL in the event that the ContentValues is empty (if
-        // this is set to "null", then the framework will not insert a row when
-        // there are no values).
-        // The third argument is the ContentValues object containing the info for Water.
-
-        long newRowId = db.insert(HabitContract.HabitEntry.TABLE_NAME, null, values);
-        Log.i(LOG_TAG, "New habit added to database ID No. " + newRowId);
-
-
-
-        // Perform this raw SQL query "SELECT * FROM habits"
-        // to get a Cursor that contains all rows from the habit table.
-        //Cursor cursor = db.rawQuery("SELECT * FROM " + HabitEntry.TABLE_NAME, null);
-
-        String[] projection = { HabitContract.HabitEntry._ID,
-                HabitContract.HabitEntry.COLUMN_HABIT_NAME,
-                HabitContract.HabitEntry.COLUMN_HABIT_TYPE,
-                HabitContract.HabitEntry.COLUMN_HABIT_DATE,
-                HabitContract.HabitEntry.COLUMN_HABIT_TIME,
-                HabitContract.HabitEntry.COLUMN_HABIT_DURATION,
-                HabitContract.HabitEntry.COLUMN_HABIT_COST };
-
-        Cursor c = db.query(HabitContract.HabitEntry.TABLE_NAME,
-                projection,
-                null,
-                null,
-                null,
-                null,
-                null);
-
+        Cursor c = mDbHelper.readDatabase();
 
         try {
             // Display the number of rows in the Cursor (which reflects the number of rows in the
