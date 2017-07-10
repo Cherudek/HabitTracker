@@ -16,13 +16,13 @@ public class HabitDbHelper  extends SQLiteOpenHelper {
 
     private static final String SQL_CREATE_ENTRIES =
             "CREATE TABLE " + HabitContract.HabitEntry.TABLE_NAME + " (" +
-                    HabitContract.HabitEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
-                    HabitContract.HabitEntry.COLUMN_HABIT_NAME + " TEXT ," +
-                    HabitContract.HabitEntry.COLUMN_HABIT_TYPE + " TEXT," +
-                    HabitContract.HabitEntry.COLUMN_HABIT_DATE + " TEXT," +
-                    HabitContract.HabitEntry.COLUMN_HABIT_TIME + " TEXT," +
-                    HabitContract.HabitEntry.COLUMN_HABIT_DURATION + " INTEGER," +
-                    HabitContract.HabitEntry.COLUMN_HABIT_COST + " INTEGER) ";
+                    HabitContract.HabitEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL," +
+                    HabitContract.HabitEntry.COLUMN_HABIT_NAME + " TEXT NOT NULL ," +
+                    HabitContract.HabitEntry.COLUMN_HABIT_TYPE + " TEXT NOT NULL," +
+                    HabitContract.HabitEntry.COLUMN_HABIT_DATE + " TEXT NOT NULL," +
+                    HabitContract.HabitEntry.COLUMN_HABIT_TIME + " TEXT NOT NULL," +
+                    HabitContract.HabitEntry.COLUMN_HABIT_DURATION + " INTEGER NOT NULL," +
+                    HabitContract.HabitEntry.COLUMN_HABIT_COST + " INTEGER NOT NULL) ";
 
     private static final String SQL_DELETE_ENTRIES =
             "DROP TABLE IF EXISTS " + com.example.gregorio.habittracker.data.HabitContract.HabitEntry.TABLE_NAME;
