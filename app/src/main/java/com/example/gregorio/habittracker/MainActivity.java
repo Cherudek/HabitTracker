@@ -17,9 +17,8 @@ import com.example.gregorio.habittracker.data.HabitDbHelper;
 
 public class MainActivity extends AppCompatActivity {
 
-    private HabitDbHelper mDbHelper;
-
     public static final String LOG_TAG = MainActivity.class.getName();
+    private HabitDbHelper mDbHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,22 +26,21 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         mDbHelper = new HabitDbHelper(this);
-        insertPet();
+        insertHabit();
         readDatabase();
         displayDatabaseInfo();
-
     }
 
     private void displayDatabaseInfo() {
         // Create and/or open a database to read from it
         SQLiteDatabase db = mDbHelper.getReadableDatabase();
 
-        // Perform this raw SQL query "SELECT * FROM pets"
+        // Perform this raw SQL query "SELECT * FROM habits"
         // to get a Cursor that contains all rows from the pets table.
         Cursor cursor = db.rawQuery("SELECT * FROM " + HabitContract.HabitEntry.TABLE_NAME, null);
         try {
             // Display the number of rows in the Cursor (which reflects the number of rows in the
-            // pets table in the database).
+            // habit table in the database).
             TextView displayView = (TextView) findViewById(R.id.text);
             displayView.setText("Number of rows in habits database table: " + cursor.getCount());
         } finally {
@@ -54,9 +52,8 @@ public class MainActivity extends AppCompatActivity {
 
     /**
      * Temporary helper method to display information in the onscreen TextView about the state of
-     * the pets database.
+     * the habit database.
      */
-
     public Cursor readDatabase() {
         // Create and/or open a database to read from it
         SQLiteDatabase db = mDbHelper.getReadableDatabase();
@@ -83,14 +80,14 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
-     * Helper method to insert hardcoded pet data into the database. For debugging purposes only.
+     * Helper method to insert hardcoded habit data into the database. For debugging purposes only.
      */
-    private void insertPet() {
+    private void insertHabit() {
         // Gets the database in write mode
         SQLiteDatabase db = mDbHelper.getWritableDatabase();
 
         // Create a ContentValues object where column names are the keys,
-        // and Toto's pet attributes are the values.
+        // and Yoga attributes are the values.
         ContentValues values = new ContentValues();
         values.put(HabitContract.HabitEntry.COLUMN_HABIT_NAME, "Yoga");
         values.put(HabitContract.HabitEntry.COLUMN_HABIT_TYPE, "Sport");
@@ -99,14 +96,14 @@ public class MainActivity extends AppCompatActivity {
         values.put(HabitContract.HabitEntry.COLUMN_HABIT_DURATION, 7);
         values.put(HabitContract.HabitEntry.COLUMN_HABIT_COST, 2);
 
-
-        // Insert a new row for Toto in the database, returning the ID of that new row.
-        // The first argument for db.insert() is the pets table name.
+        // Insert a new row for Yoga in the database, returning the ID of that new row.
+        // The first argument for db.insert() is the habit table name.
         // The second argument provides the name of a column in which the framework
         // can insert NULL in the event that the ContentValues is empty (if
         // this is set to "null", then the framework will not insert a row when
         // there are no values).
-        // The third argument is the ContentValues object containing the info for Toto.
+        // The third argument is the ContentValues object containing the info for Yoga.
         long newRowId = db.insert(HabitContract.HabitEntry.TABLE_NAME, null, values);
+        Log.i(LOG_TAG, "a New Habit has been addedd to database with the value of: " + newRowId);
     }
 }

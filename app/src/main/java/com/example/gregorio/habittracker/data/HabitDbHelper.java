@@ -1,30 +1,18 @@
 package com.example.gregorio.habittracker.data;
 
-import android.content.ContentValues;
 import android.content.Context;
-import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.util.Log;
-
-import com.example.gregorio.habittracker.MainActivity;
-
 
 /**
  * Created by Gregorio on 09/07/2017.
- *
- *
  */
-
 
 public class HabitDbHelper  extends SQLiteOpenHelper {
 
-
     public static final int DATABASE_VERSION = 1;
 
-
     public static final String DATABASE_NAME = "Habit.db";
-
 
     private static final String SQL_CREATE_ENTRIES =
             "CREATE TABLE " + HabitContract.HabitEntry.TABLE_NAME + " (" +
@@ -36,24 +24,17 @@ public class HabitDbHelper  extends SQLiteOpenHelper {
                     HabitContract.HabitEntry.COLUMN_HABIT_DURATION + " INTEGER," +
                     HabitContract.HabitEntry.COLUMN_HABIT_COST + " INTEGER) ";
 
-
     private static final String SQL_DELETE_ENTRIES =
             "DROP TABLE IF EXISTS " + com.example.gregorio.habittracker.data.HabitContract.HabitEntry.TABLE_NAME;
-
-
-
 
     //HabitDbHelper constructor
     public HabitDbHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
-
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(SQL_CREATE_ENTRIES);
-
-
     }
 
     @Override
