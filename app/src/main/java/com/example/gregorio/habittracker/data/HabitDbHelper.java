@@ -7,6 +7,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
+import com.example.gregorio.habittracker.MainActivity;
+
 
 /**
  * Created by Gregorio on 09/07/2017.
@@ -17,9 +19,11 @@ import android.util.Log;
 
 public class HabitDbHelper  extends SQLiteOpenHelper {
 
-    public static final String LOG_TAG1 = HabitDbHelper.class.getName();
 
-    private HabitDbHelper mDbHelper;
+    public static final int DATABASE_VERSION = 1;
+
+
+    public static final String DATABASE_NAME = "Habit.db";
 
 
     private static final String SQL_CREATE_ENTRIES =
@@ -32,18 +36,18 @@ public class HabitDbHelper  extends SQLiteOpenHelper {
                     HabitContract.HabitEntry.COLUMN_HABIT_DURATION + " INTEGER," +
                     HabitContract.HabitEntry.COLUMN_HABIT_COST + " INTEGER) ";
 
+
     private static final String SQL_DELETE_ENTRIES =
             "DROP TABLE IF EXISTS " + com.example.gregorio.habittracker.data.HabitContract.HabitEntry.TABLE_NAME;
 
 
-    // If you change the database schema, you must increment the database version.
-    public static final int DATABASE_VERSION = 1;
-    public static final String DATABASE_NAME = "Habit.db";
+
 
     //HabitDbHelper constructor
     public HabitDbHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
+
 
     @Override
     public void onCreate(SQLiteDatabase db) {
@@ -59,57 +63,6 @@ public class HabitDbHelper  extends SQLiteOpenHelper {
         db.execSQL(SQL_DELETE_ENTRIES);
         onCreate(db);
     }
-
-    @Override
-    public void onDowngrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        onUpgrade(db, oldVersion, newVersion);
-    }
-
-    public void insertHabit(String name, String type, String date, String time, int duration, int cost){
-
-        // Gets the database in write mode
-        SQLiteDatabase db = mDbHelper.getWritableDatabase();
-
-
-        // Create a ContentValues object where column names are the keys,
-        // and Water attributes are the values.
-        ContentValues values = new ContentValues();
-        values.put(HabitContract.HabitEntry.COLUMN_HABIT_NAME, name);
-        values.put(HabitContract.HabitEntry.COLUMN_HABIT_TYPE, type);
-        values.put(HabitContract.HabitEntry.COLUMN_HABIT_DATE, date);
-        values.put(HabitContract.HabitEntry.COLUMN_HABIT_TIME, time);
-        values.put(HabitContract.HabitEntry.COLUMN_HABIT_DURATION, duration);
-        values.put(HabitContract.HabitEntry.COLUMN_HABIT_COST, cost);
-
-
-        long newRowId = db.insert(HabitContract.HabitEntry.TABLE_NAME, null, values);
-        Log.i(LOG_TAG1, "New habit added to database ID No. " + newRowId);
-    }
-
-    public Cursor readDatabase() {
-
-        SQLiteDatabase db = mDbHelper.getReadableDatabase();
-
-            String[] projection = {
-                    HabitContract.HabitEntry._ID,
-                    HabitContract.HabitEntry.COLUMN_HABIT_NAME,
-                    HabitContract.HabitEntry.COLUMN_HABIT_TYPE,
-                    HabitContract.HabitEntry.COLUMN_HABIT_DATE,
-                    HabitContract.HabitEntry.COLUMN_HABIT_TIME,
-                    HabitContract.HabitEntry.COLUMN_HABIT_DURATION,
-                    HabitContract.HabitEntry.COLUMN_HABIT_COST
-            };
-
-            return db.query(
-                    HabitContract.HabitEntry.TABLE_NAME,
-                    projection,
-                    null,
-                    null,
-                    null,
-                    null,
-                    null
-            );
-        }
-    }
+}
 
 
