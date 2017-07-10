@@ -43,6 +43,7 @@ public class MainActivity extends AppCompatActivity {
             // habit table in the database).
             TextView displayView = (TextView) findViewById(R.id.text);
             displayView.setText("Number of rows in habits database table: " + cursor.getCount());
+            Log.i(LOG_TAG, "Number of rows in habits database table: " + cursor.getCount());
         } finally {
             // Always close the cursor when you're done reading from it. This releases all its
             // resources and makes it invalid.
@@ -104,6 +105,6 @@ public class MainActivity extends AppCompatActivity {
         // there are no values).
         // The third argument is the ContentValues object containing the info for Yoga.
         long newRowId = db.insert(HabitContract.HabitEntry.TABLE_NAME, null, values);
-        Log.i(LOG_TAG, "a New Habit has been addedd to database with the value of: " + newRowId);
+        Log.i(LOG_TAG, "a New Habit has been added to database with the value of: " + newRowId);
     }
 }
